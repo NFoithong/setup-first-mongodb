@@ -75,8 +75,15 @@ const mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost:27017/fruitsDB', { useNewUrlParser: true });
 
 const fruitSchema = new mongoose.Schema({
-    name: String,
-    rating: Number,
+    name: {
+        type: String,
+        required: [true, 'Please provide fruit name']
+    },
+    rating: {
+        type: Number,
+        min: 1,
+        max: 10
+    },
     review: String
 });
 
@@ -122,11 +129,24 @@ const banana = new Fruit({
     review: 'Nahhhh'
 });
 
-Fruit.insertMany([kiwi, orange, banana], function(err) {
+// Fruit.insertMany([kiwi, orange, banana], function(err) {
+//     if (err) {
+//         console.log(err);
+//     } else {
+//         console.log('Successfully saved all fruits')
+//     }
+// });
+
+Fruit.find(function(err, fruits) {
     if (err) {
         console.log(err);
     } else {
-        console.log('Successfully saved all fruits')
+        // console.log(fruits);
+        mongoose.connection.close();
+
+        fruits.forEach(function(fruit) {
+            console.log(fruit.name);
+        });
     }
 });
 
