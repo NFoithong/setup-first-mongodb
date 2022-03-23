@@ -109,7 +109,7 @@ const person = new Person({
     age: 39
 });
 
-person.save();
+// person.save();
 
 const kiwi = new Fruit({
     name: 'Kiwi',
@@ -142,13 +142,37 @@ Fruit.find(function(err, fruits) {
         console.log(err);
     } else {
         // console.log(fruits);
-        mongoose.connection.close();
+        // mongoose.connection.close();
 
         fruits.forEach(function(fruit) {
             console.log(fruit.name);
         });
     }
 });
+
+// update - Fruit.updateOne({condition, (callback function)})
+
+Fruit.updateOne({ _id: '6238ed939ee53b5e50132c17' }, { name: 'Pineapple' }, function(err) {
+    if (err) {
+        console.log(err);
+    } else {
+        console.log('Succesfully updated');
+    }
+});
+
+
+// delete
+// Fruit.deleteOne({ name: 'Banana' }, function(err) {
+//     if (err => console.log(err));
+//     console.log('Succesfully deleted')
+// });
+
+// delete name: person collection
+Person.deleteMany({ name: 'John' }, function(err) {
+    if (err => console.log(err));
+    console.log('Succesfully deleted')
+});
+
 
 // const insertDocuments = function(db, callback) {
 //     // Get the documents collection
