@@ -99,15 +99,35 @@ const fruit = new Fruit({
 
 const personSchema = new mongoose.Schema({
     name: String,
-    age: Number
+    age: Number,
+    // relation-embedding between 2 collections
+    favouriteFruit: fruitSchema
 });
 
 const Person = mongoose.model("Person", personSchema);
 
-const person = new Person({
-    name: 'John',
-    age: 39
+// new fruit for relation
+const grape = new Fruit({
+    name: 'Grape',
+    rating: 10,
+    review: 'Fantastic'
 });
+
+grape.save();
+
+Person.updateOne({ name: 'John' }, { favouriteFruit: grape }, function(err) {
+    if (err) {
+        console.log(err);
+    } else {
+        console.log('Successfully updated');
+    }
+});
+
+// const person = new Person({
+//     name: 'John',
+//     age: 49,
+//     favouriteFruit: mango
+// });
 
 // person.save();
 
